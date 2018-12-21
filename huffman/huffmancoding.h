@@ -13,6 +13,7 @@ public:
     HuffmanNode *right = nullptr;
     HuffmanNode *next = nullptr;
     HuffmanNode(unsigned char byte, int freq);
+    HuffmanNode(unsigned char byte, int freq, HuffmanNode *left, HuffmanNode* right);
     HuffmanNode();
 };
 
