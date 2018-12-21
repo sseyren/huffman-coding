@@ -28,6 +28,7 @@ public:
     HuffmanCoding(char *file);
     void determineFreqs();
     void bulildList();
+    void buildTree();
 };
 
 #endif // HUFFMANCODING_H

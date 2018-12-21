@@ -8,6 +8,7 @@ int main(int argc, char *argv[])
     HuffmanCoding htree(argv[1], true);
     htree.determineFreqs();
     htree.bulildList();
+    htree.buildTree();
 
     return 0;
 }

@@ -95,3 +95,63 @@ void HuffmanCoding::bulildList(){
         std::cout << std::endl;
     }
 }
+
+void HuffmanCoding::buildTree()
+{
+    if(debugMode){
+        std::cout << "buildTree" << std::endl;
+
+        HuffmanNode *iter = tree;
+        while (iter != nullptr) {
+            std::cout << iter->freq << ' ';
+            iter = iter->next;
+        }
+        std::cout << std::endl;
+    }
+
+    while (tree->next != nullptr){
+        // Creating a new parent node which points first two node on current list
+        HuffmanNode *parentNode = new HuffmanNode(0, tree->freq + tree->next->freq, tree, tree->next);
+
+        // If list ends after these two nodes...
+        if (tree->next->next != nullptr)
+            tree = tree->next->next;
+        else{
+            tree = parentNode;
+            break;
+        }
+
+        // If right position is first node on list...
+        if (tree->freq >= parentNode->freq){
+            parentNode->next = tree;
+            tree = parentNode;
+        }else{
+            HuffmanNode *iter = tree;
+
+            // Find right position for parentNode
+            while (iter->next != nullptr && iter->next->freq < parentNode->freq) {
+                iter = iter->next;
+            }
+
+            parentNode->next = iter->next;
+            iter->next = parentNode;
+        }
+
+        if (debugMode){
+            HuffmanNode *iter = tree;
+            while (iter != nullptr) {
+                std::cout << iter->freq << ' ';
+                iter = iter->next;
+            }
+            std::cout << std::endl;
+        }
+    }
+    if (debugMode){
+        HuffmanNode *iter = tree;
+        while (iter != nullptr) {
+            std::cout << iter->freq << ' ';
+            iter = iter->next;
+        }
+        std::cout << std::endl;
+    }
+}
