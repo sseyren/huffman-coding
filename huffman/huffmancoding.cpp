@@ -20,9 +20,18 @@ HuffmanCoding::HuffmanCoding(char *file){
     HuffmanCoding(file, false);
 }
 
+void HuffmanNodeListDebug(HuffmanNode *tree){
+    HuffmanNode *iter = tree;
+    while(iter != nullptr){
+        std::cout << '(' << iter->byte << ' ' << iter->freq << ") ";
+        iter = iter->next;
+    }
+    std::cout << std::endl;
+}
+
 void HuffmanCoding::determineFreqs(){
     if (debugMode)
-        std::cout << "determineFreqs" << std::endl;
+        std::cout << "<!-- determineFreqs --!>" << std::endl;
 
     std::fstream fs(file, std::fstream::in | std::fstream::binary);
 
@@ -36,13 +45,13 @@ void HuffmanCoding::determineFreqs(){
         for(int i = 0; i < 256; i++){
             std::cout << i << " -> " << freqList[(unsigned char)i] << ' ';
         }
-        std::cout << std::endl;
+        std::cout << std::endl << std::endl;
     }
 }
 
 void HuffmanCoding::bulildList(){
     if(debugMode)
-        std::cout << "buildTree" << std::endl;
+        std::cout << "<!-- buildList --!>" << std::endl;
 
     int min = 0;
 
@@ -87,11 +96,7 @@ void HuffmanCoding::bulildList(){
     tree = tail;
 
     if(debugMode){
-        HuffmanNode *iter = tree;
-        while(iter != nullptr){
-            std::cout << '(' << iter->byte << ' ' << iter->freq << ") ";
-            iter = iter->next;
-        }
+        HuffmanNodeListDebug(tree);
         std::cout << std::endl;
     }
 }
@@ -99,14 +104,8 @@ void HuffmanCoding::bulildList(){
 void HuffmanCoding::buildTree()
 {
     if(debugMode){
-        std::cout << "buildTree" << std::endl;
-
-        HuffmanNode *iter = tree;
-        while (iter != nullptr) {
-            std::cout << iter->freq << ' ';
-            iter = iter->next;
-        }
-        std::cout << std::endl;
+        std::cout << "<!-- buildTree --!>" << std::endl;
+        HuffmanNodeListDebug(tree);
     }
 
     while (tree->next != nullptr){
@@ -138,20 +137,12 @@ void HuffmanCoding::buildTree()
         }
 
         if (debugMode){
-            HuffmanNode *iter = tree;
-            while (iter != nullptr) {
-                std::cout << iter->freq << ' ';
-                iter = iter->next;
-            }
-            std::cout << std::endl;
+            HuffmanNodeListDebug(tree);
         }
     }
+
     if (debugMode){
-        HuffmanNode *iter = tree;
-        while (iter != nullptr) {
-            std::cout << iter->freq << ' ';
-            iter = iter->next;
-        }
+        HuffmanNodeListDebug(tree);
         std::cout << std::endl;
     }
 }
