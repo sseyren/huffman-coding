@@ -175,3 +175,43 @@ void HuffmanCoding::determineBits(){
         std::cout << std::endl;
     }
 }
+
+unsigned char HuffmanCoding::stringToByte(std::string str){
+    unsigned char sum = 0;
+    for(char i = 0; i < 8; i++){
+        sum <<= 1;
+        sum += str[i] - '0';
+    }
+    return sum;
+}
+
+void HuffmanCoding::encodeToFile(char *outputFile){
+    const int bufferSize = 4096; // 4 KB
+
+    char *buffer = new char[bufferSize];
+    std::string bitString;
+
+    std::fstream ifs(file, std::fstream::in | std::fstream::binary);
+    std::fstream ofs(outputFile, std::fstream::out | std::fstream::binary);
+
+    do {
+        ifs.read(buffer, bufferSize);
+
+        // Fill bitString with encodings
+        for(int i = 0; i < ifs.gcount(); i++)
+            bitString += bitMap[buffer[i]];
+
+        // Fill bitString whit zero-bits when reach end of the input file
+        if(ifs.eof() && bitString.size() % 8 != 0)
+            bitString += std::string(8 - (bitString.size() % 8), '0');
+
+        // Write to output file and delete first 8 char from bitString
+        while(bitString.size() >= 8){
+            ofs << stringToByte(bitString);
+            bitString.erase(0, 8);
+        }
+    }while(!ifs.eof());
+
+    ifs.close();
+    ofs.close();
+}

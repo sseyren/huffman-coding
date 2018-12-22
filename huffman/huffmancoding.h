@@ -24,6 +24,7 @@ class HuffmanCoding
     char *file;
     HuffmanNode *tree = nullptr;
     void getBits(HuffmanNode *node, std::string bitseq);
+    unsigned char stringToByte(std::string str);
 public:
     bool debugMode;
     HuffmanCoding(char *file, bool debug);
@@ -32,6 +33,7 @@ public:
     void bulildList();
     void buildTree();
     void determineBits();
+    void encodeToFile(char *outputFile);
 };
 
 #endif // HUFFMANCODING_H
