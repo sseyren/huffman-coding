@@ -1,7 +1,7 @@
 #ifndef HUFFMANCODING_H
 #define HUFFMANCODING_H
 
-#include <list>
+#include <map>
 #include <string>
 
 class HuffmanNode
@@ -20,8 +20,10 @@ public:
 class HuffmanCoding
 {
     int freqList[256];
+    std::map<unsigned char, std::string> bitMap;
     char *file;
     HuffmanNode *tree = nullptr;
+    void getBits(HuffmanNode *node, std::string bitseq);
 public:
     bool debugMode;
     HuffmanCoding(char *file, bool debug);
@@ -29,6 +31,7 @@ public:
     void determineFreqs();
     void bulildList();
     void buildTree();
+    void determineBits();
 };
 
 #endif // HUFFMANCODING_H

@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
     htree.determineFreqs();
     htree.bulildList();
     htree.buildTree();
+    htree.determineBits();
 
     return 0;
 }

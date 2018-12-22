@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <algorithm>
+#include <string>
 
 HuffmanNode::HuffmanNode(unsigned char byte, int freq):
     byte(byte), freq(freq) {}
@@ -143,6 +144,34 @@ void HuffmanCoding::buildTree()
 
     if (debugMode){
         HuffmanNodeListDebug(tree);
+        std::cout << std::endl;
+    }
+}
+
+void HuffmanCoding::getBits(HuffmanNode *node, std::string bitseq){
+    if(node->left == nullptr){
+        bitMap[node->byte] = bitseq;
+        return;
+    }else
+        getBits(node->left, bitseq + '0');
+
+    if(node->right == nullptr)
+        bitMap[node->byte] = bitseq;
+    else
+        getBits(node->right, bitseq + '1');
+}
+
+void HuffmanCoding::determineBits(){
+    if(debugMode)
+        std::cout << "<!-- determineBits --!>" << std::endl;
+
+    getBits(tree, "");
+
+    if(debugMode){
+        for(std::map<unsigned char, std::string>::iterator it = bitMap.begin();
+            it != bitMap.end(); it++){
+            std::cout << it->first << " -> " << it->second << std::endl;
+        }
         std::cout << std::endl;
     }
 }
