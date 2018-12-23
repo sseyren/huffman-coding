@@ -185,7 +185,6 @@ unsigned char HuffmanCoding::stringToByte(std::string str){
 }
 
 void HuffmanCoding::encodeToFile(char* inputFile, char *outputFile){
-    std::cout << DEFAULT_OUTPUT_FILE << std::endl;
     determineFreqs(inputFile); bulildList(); buildTree(); determineBits();
 
     const int bufferSize = 4096; // 4 KB
