@@ -12,13 +12,12 @@ HuffmanNode::HuffmanNode(unsigned char byte, int freq, HuffmanNode *left, Huffma
 
 HuffmanNode::HuffmanNode() {}
 
-HuffmanCoding::HuffmanCoding(char *file, bool debug):
-    file(file), debugMode(debug) {
+HuffmanCoding::HuffmanCoding(bool debug): debugMode(debug) {
     std::fill(freqList, freqList+256, 0);
 }
 
-HuffmanCoding::HuffmanCoding(char *file){
-    HuffmanCoding(file, false);
+HuffmanCoding::HuffmanCoding(){
+    HuffmanCoding(false);
 }
 
 void HuffmanNodeListDebug(HuffmanNode *tree){
@@ -30,11 +29,11 @@ void HuffmanNodeListDebug(HuffmanNode *tree){
     std::cout << std::endl;
 }
 
-void HuffmanCoding::determineFreqs(){
+void HuffmanCoding::determineFreqs(char *inputFile){
     if (debugMode)
         std::cout << "<!-- determineFreqs --!>" << std::endl;
 
-    std::fstream fs(file, std::fstream::in | std::fstream::binary);
+    std::fstream fs(inputFile, std::fstream::in | std::fstream::binary);
 
     char byte;
     while(fs.get(byte))
@@ -185,13 +184,16 @@ unsigned char HuffmanCoding::stringToByte(std::string str){
     return sum;
 }
 
-void HuffmanCoding::encodeToFile(char *outputFile){
+void HuffmanCoding::encodeToFile(char* inputFile, char *outputFile){
+    std::cout << DEFAULT_OUTPUT_FILE << std::endl;
+    determineFreqs(inputFile); bulildList(); buildTree(); determineBits();
+
     const int bufferSize = 4096; // 4 KB
 
     char *buffer = new char[bufferSize];
     std::string bitString;
 
-    std::fstream ifs(file, std::fstream::in | std::fstream::binary);
+    std::fstream ifs(inputFile, std::fstream::in | std::fstream::binary);
     std::fstream ofs(outputFile, std::fstream::out | std::fstream::binary);
 
     do {

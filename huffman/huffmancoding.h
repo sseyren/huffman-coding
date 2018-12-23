@@ -20,20 +20,23 @@ public:
 class HuffmanCoding
 {
     int freqList[256];
-    std::map<unsigned char, std::string> bitMap;
-    char *file;
     HuffmanNode *tree = nullptr;
+    std::map<unsigned char, std::string> bitMap;
+
     void getBits(HuffmanNode *node, std::string bitseq);
     unsigned char stringToByte(std::string str);
-public:
-    bool debugMode;
-    HuffmanCoding(char *file, bool debug);
-    HuffmanCoding(char *file);
-    void determineFreqs();
+
+    void determineFreqs(char *inputFile);
     void bulildList();
     void buildTree();
     void determineBits();
-    void encodeToFile(char *outputFile);
+public:
+    bool debugMode;
+
+    HuffmanCoding(bool debug);
+    HuffmanCoding();
+
+    void encodeToFile(char *inputFile, char *outputFile);
 };
 
 #endif // HUFFMANCODING_H
