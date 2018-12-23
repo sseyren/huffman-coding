@@ -26,17 +26,20 @@ class HuffmanCoding
     void getBits(HuffmanNode *node, std::string bitseq);
     unsigned char stringToByte(std::string str);
 
-    void determineFreqs(char *inputFile);
+    void determineFreqs(std::string inputFile);
     void bulildList();
     void buildTree();
     void determineBits();
+    void prepareDictFile(std::string dictFile);
 public:
     bool debugMode;
 
     HuffmanCoding(bool debug);
     HuffmanCoding();
 
-    void encodeToFile(char *inputFile, char *outputFile);
+    void encodeToFile(std::string inputFile, std::string outputFile, std::string dictFile);
+    void encodeToFile(std::string inputFile, std::string outputFile);
+    void encodeToFile(std::string inputFile);
 };
 
 #endif // HUFFMANCODING_H

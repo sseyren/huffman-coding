@@ -3,6 +3,10 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
+#include <bitset>
+
+const std::string DEFAULT_OUTPUT_FILE = "output.huff";
+const std::string DEFAULT_DICT_SUFFIX = ".dict";
 
 HuffmanNode::HuffmanNode(unsigned char byte, int freq):
     byte(byte), freq(freq) {}
@@ -29,7 +33,7 @@ void HuffmanNodeListDebug(HuffmanNode *tree){
     std::cout << std::endl;
 }
 
-void HuffmanCoding::determineFreqs(char *inputFile){
+void HuffmanCoding::determineFreqs(std::string inputFile){
     if (debugMode)
         std::cout << "<!-- determineFreqs --!>" << std::endl;
 
@@ -175,6 +179,17 @@ void HuffmanCoding::determineBits(){
     }
 }
 
+void HuffmanCoding::prepareDictFile(std::string dictFile){
+    std::fstream dfs (dictFile, std::fstream::out);
+
+    for (std::map<unsigned char, std::string>::iterator it = bitMap.begin();
+         it != bitMap.end(); it++){
+        dfs << it->first << ' ' << it->second << std::endl;
+    }
+
+    dfs.close();
+}
+
 unsigned char HuffmanCoding::stringToByte(std::string str){
     unsigned char sum = 0;
     for(char i = 0; i < 8; i++){
@@ -184,8 +199,8 @@ unsigned char HuffmanCoding::stringToByte(std::string str){
     return sum;
 }
 
-void HuffmanCoding::encodeToFile(char* inputFile, char *outputFile){
-    determineFreqs(inputFile); bulildList(); buildTree(); determineBits();
+void HuffmanCoding::encodeToFile(std::string inputFile, std::string outputFile, std::string dictFile){
+    determineFreqs(inputFile); bulildList(); buildTree(); determineBits(); prepareDictFile(dictFile);
 
     const int bufferSize = 4096; // 4 KB
 
@@ -215,4 +230,14 @@ void HuffmanCoding::encodeToFile(char* inputFile, char *outputFile){
 
     ifs.close();
     ofs.close();
+}
+
+void HuffmanCoding::encodeToFile(std::string inputFile, std::string outputFile)
+{
+    encodeToFile(inputFile, outputFile, outputFile + DEFAULT_DICT_SUFFIX);
+}
+
+void HuffmanCoding::encodeToFile(std::string inputFile)
+{
+    encodeToFile(inputFile, DEFAULT_OUTPUT_FILE, DEFAULT_OUTPUT_FILE + DEFAULT_DICT_SUFFIX);
 }

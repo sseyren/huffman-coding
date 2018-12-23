@@ -3,11 +3,8 @@
 
 int main(int argc, char *argv[])
 {
-    std::cout << argv[1] << std::endl;
-    std::cout << argv[2] << std::endl;
-
     HuffmanCoding htree(true);
-    htree.encodeToFile(argv[1], argv[2]);
+    htree.encodeToFile(std::string(argv[1]), std::string(argv[2]));
 
     return 0;
 }
