@@ -5,4 +5,5 @@ add_executable (${PROJECT_NAME}
     "main.cpp"
     "huffmancoding.cpp"
     "huffmannode.cpp"
+    "huffmandecoder.cpp"
     )
