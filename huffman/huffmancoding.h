@@ -1,6 +1,7 @@
 #ifndef HUFFMANCODING_H
 #define HUFFMANCODING_H
 
+#include "huffmannode.h"
 #include <map>
 #include <string>
 
