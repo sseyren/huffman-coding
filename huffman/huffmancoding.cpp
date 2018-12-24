@@ -1,4 +1,6 @@
 #include "huffmancoding.h"
+#include "huffmannode.h"
+
 #include <fstream>
 #include <iostream>
 #include <algorithm>
@@ -7,14 +9,6 @@
 
 const std::string DEFAULT_OUTPUT_FILE = "output.huff";
 const std::string DEFAULT_DICT_SUFFIX = ".dict";
-
-HuffmanNode::HuffmanNode(unsigned char byte, int freq):
-    byte(byte), freq(freq) {}
-
-HuffmanNode::HuffmanNode(unsigned char byte, int freq, HuffmanNode *left, HuffmanNode *right):
-    byte(byte), freq(freq), left(left), right(right) {}
-
-HuffmanNode::HuffmanNode() {}
 
 HuffmanCoding::HuffmanCoding(bool debug): debugMode(debug) {
     std::fill(freqList, freqList+256, 0);
