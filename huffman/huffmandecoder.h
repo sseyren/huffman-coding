@@ -13,7 +13,10 @@ public:
     bool debugMode;
     HuffmanDecoder();
     HuffmanDecoder(bool debugMode);
+
     void decodeFile(std::string inputFile, std::string outputFile, std::string dictFile);
+    void decodeFile(std::string inputFile, std::string outputFile);
+    void decodeFile(std::string inputFile);
 };
 
 #endif // HUFFMANDECODER_H

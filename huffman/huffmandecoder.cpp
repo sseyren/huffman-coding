@@ -1,4 +1,6 @@
 #include "huffmandecoder.h"
+#include "huffmanconstants.h"
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -59,14 +61,15 @@ void HuffmanDecoder::decodeFile(std::string inputFile, std::string outputFile, s
     std::string bitString;
 
     std::fstream ifs(inputFile, std::fstream::in | std::fstream::binary);
-    std::string outputString;
     std::fstream ofs(outputFile, std::fstream::out | std::fstream::binary);
+    std::string outputString;
 
     unsigned int encodedBytes = 0;
 
     do {
         ifs.read(buffer, bufferSize);
 
+        // Change bytes to bits
         for (int i = 0; i < ifs.gcount(); i++){
             std::bitset<8> bitset(buffer[i]);
             bitString += bitset.to_string();
@@ -77,20 +80,35 @@ void HuffmanDecoder::decodeFile(std::string inputFile, std::string outputFile, s
         for (int i = 1; i <= stringSize; i++){
             std::map<std::string, unsigned char>::iterator iter = byteMap.find(bitString.substr(0, i));
 
+            // If not found this bit sequence in byteMap
             if (iter != byteMap.end()){
                 bitString.erase(0, i);
+
+                // Synchronise iteration and size for truncated string
                 i = 1;
                 stringSize -= i;
+
                 outputString += iter->second;
                 encodedBytes++;
                 if(encodedBytes == fileSize)
                     break;
             }
         }
+
+        // Read from buffer to file and clear buffer
         ofs << outputString;
         outputString.clear();
+
     }while(!ifs.eof());
 
     ifs.close();
     ofs.close();
+}
+
+void HuffmanDecoder::decodeFile(std::string inputFile, std::string outputFile){
+    decodeFile(inputFile, outputFile, outputFile + DEFAULT_DICT_SUFFIX);
+}
+
+void HuffmanDecoder::decodeFile(std::string inputFile){
+    decodeFile(inputFile, DEFAULT_OUTPUT_FILE, DEFAULT_OUTPUT_FILE + DEFAULT_DICT_SUFFIX);
 }
