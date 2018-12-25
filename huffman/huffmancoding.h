@@ -7,6 +7,7 @@
 
 class HuffmanCoding
 {
+    unsigned int fileSize = 0;
     int freqList[256];
     HuffmanNode *tree = nullptr;
     std::map<unsigned char, std::string> bitMap;

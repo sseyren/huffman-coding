@@ -34,8 +34,10 @@ void HuffmanCoding::determineFreqs(std::string inputFile){
     std::fstream fs(inputFile, std::fstream::in | std::fstream::binary);
 
     char byte;
-    while(fs.get(byte))
+    while(fs.get(byte)){
+        fileSize++;
         freqList[(unsigned char)byte]++;
+    }
 
     fs.close();
 
@@ -175,6 +177,9 @@ void HuffmanCoding::determineBits(){
 
 void HuffmanCoding::prepareDictFile(std::string dictFile){
     std::fstream dfs (dictFile, std::fstream::out);
+
+    // Writing filesize to first 4 byte of dictFile
+    dfs.write((char*)&fileSize, sizeof(fileSize));
 
     for (std::map<unsigned char, std::string>::iterator it = bitMap.begin();
          it != bitMap.end(); it++){
