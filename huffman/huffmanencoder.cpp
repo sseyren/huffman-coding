@@ -1,4 +1,4 @@
-#include "huffmancoding.h"
+#include "huffmanencoder.h"
 #include "huffmannode.h"
 
 #include <fstream>
@@ -10,12 +10,12 @@
 const std::string DEFAULT_OUTPUT_FILE = "output.huff";
 const std::string DEFAULT_DICT_SUFFIX = ".dict";
 
-HuffmanCoding::HuffmanCoding(bool debug): debugMode(debug) {
+HuffmanEncoder::HuffmanEncoder(bool debug): debugMode(debug) {
     std::fill(freqList, freqList+256, 0);
 }
 
-HuffmanCoding::HuffmanCoding(){
-    HuffmanCoding(false);
+HuffmanEncoder::HuffmanEncoder(){
+    HuffmanEncoder(false);
 }
 
 void HuffmanNodeListDebug(HuffmanNode *tree){
@@ -27,7 +27,7 @@ void HuffmanNodeListDebug(HuffmanNode *tree){
     std::cout << std::endl;
 }
 
-void HuffmanCoding::determineFreqs(std::string inputFile){
+void HuffmanEncoder::determineFreqs(std::string inputFile){
     if (debugMode)
         std::cout << "<!-- determineFreqs --!>" << std::endl;
 
@@ -49,7 +49,7 @@ void HuffmanCoding::determineFreqs(std::string inputFile){
     }
 }
 
-void HuffmanCoding::bulildList(){
+void HuffmanEncoder::bulildList(){
     if(debugMode)
         std::cout << "<!-- buildList --!>" << std::endl;
 
@@ -101,7 +101,7 @@ void HuffmanCoding::bulildList(){
     }
 }
 
-void HuffmanCoding::buildTree()
+void HuffmanEncoder::buildTree()
 {
     if(debugMode){
         std::cout << "<!-- buildTree --!>" << std::endl;
@@ -147,7 +147,7 @@ void HuffmanCoding::buildTree()
     }
 }
 
-void HuffmanCoding::getBits(HuffmanNode *node, std::string bitseq){
+void HuffmanEncoder::getBits(HuffmanNode *node, std::string bitseq){
     if(node->left == nullptr){
         bitMap[node->byte] = bitseq;
         return;
@@ -160,7 +160,7 @@ void HuffmanCoding::getBits(HuffmanNode *node, std::string bitseq){
         getBits(node->right, bitseq + '1');
 }
 
-void HuffmanCoding::determineBits(){
+void HuffmanEncoder::determineBits(){
     if(debugMode)
         std::cout << "<!-- determineBits --!>" << std::endl;
 
@@ -175,7 +175,7 @@ void HuffmanCoding::determineBits(){
     }
 }
 
-void HuffmanCoding::prepareDictFile(std::string dictFile){
+void HuffmanEncoder::prepareDictFile(std::string dictFile){
     std::fstream dfs (dictFile, std::fstream::out);
 
     // Writing filesize to first 4 byte of dictFile
@@ -189,7 +189,7 @@ void HuffmanCoding::prepareDictFile(std::string dictFile){
     dfs.close();
 }
 
-unsigned char HuffmanCoding::stringToByte(std::string str){
+unsigned char HuffmanEncoder::stringToByte(std::string str){
     unsigned char sum = 0;
     for(char i = 0; i < 8; i++){
         sum <<= 1;
@@ -198,7 +198,7 @@ unsigned char HuffmanCoding::stringToByte(std::string str){
     return sum;
 }
 
-void HuffmanCoding::encodeToFile(std::string inputFile, std::string outputFile, std::string dictFile){
+void HuffmanEncoder::encodeToFile(std::string inputFile, std::string outputFile, std::string dictFile){
     determineFreqs(inputFile); bulildList(); buildTree(); determineBits(); prepareDictFile(dictFile);
 
     const int bufferSize = 4096; // 4 KB
@@ -231,12 +231,12 @@ void HuffmanCoding::encodeToFile(std::string inputFile, std::string outputFile, 
     ofs.close();
 }
 
-void HuffmanCoding::encodeToFile(std::string inputFile, std::string outputFile)
+void HuffmanEncoder::encodeToFile(std::string inputFile, std::string outputFile)
 {
     encodeToFile(inputFile, outputFile, outputFile + DEFAULT_DICT_SUFFIX);
 }
 
-void HuffmanCoding::encodeToFile(std::string inputFile)
+void HuffmanEncoder::encodeToFile(std::string inputFile)
 {
     encodeToFile(inputFile, DEFAULT_OUTPUT_FILE, DEFAULT_OUTPUT_FILE + DEFAULT_DICT_SUFFIX);
 }

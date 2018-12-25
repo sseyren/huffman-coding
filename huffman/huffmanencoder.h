@@ -1,11 +1,11 @@
-#ifndef HUFFMANCODING_H
-#define HUFFMANCODING_H
+#ifndef HUFFMANENCODER_H
+#define HUFFMANENCODER_H
 
 #include "huffmannode.h"
 #include <map>
 #include <string>
 
-class HuffmanCoding
+class HuffmanEncoder
 {
     unsigned int fileSize = 0;
     int freqList[256];
@@ -23,12 +23,12 @@ class HuffmanCoding
 public:
     bool debugMode;
 
-    HuffmanCoding(bool debug);
-    HuffmanCoding();
+    HuffmanEncoder(bool debug);
+    HuffmanEncoder();
 
     void encodeToFile(std::string inputFile, std::string outputFile, std::string dictFile);
     void encodeToFile(std::string inputFile, std::string outputFile);
     void encodeToFile(std::string inputFile);
 };
 
-#endif // HUFFMANCODING_H
+#endif // HUFFMANENCODER_H
