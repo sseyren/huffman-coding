@@ -1,14 +1,12 @@
 #include "huffmanencoder.h"
 #include "huffmannode.h"
+#include "huffmanconstants.h"
 
 #include <fstream>
 #include <iostream>
 #include <algorithm>
 #include <string>
 #include <bitset>
-
-const std::string DEFAULT_OUTPUT_FILE = "output.huff";
-const std::string DEFAULT_DICT_SUFFIX = ".dict";
 
 HuffmanEncoder::HuffmanEncoder(bool debug): debugMode(debug) {
     std::fill(freqList, freqList+256, 0);
